@@ -26,8 +26,8 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     private static final String PUBLISH_PREFIX = "/pub";
     private static final String CONNECT_ENDPOINT = "/ws/connect";
 
-    private static final long OUTGOING_INTERVAL_HEARTBEAT_TIME = 4 * 1000L; // 4초 / 서버가 클라이언트에게 보내는 heart beat 간격
-    private static final long INGOING_INTERVAL_HEARTBEAT_TIME = 4 * 1000L; // 4초 / 클라이언트가 서버에게 보내는 heart beat 간격
+    private static final long OUTGOING_INTERVAL_HEARTBEAT_TIME = 10 * 1000L; // 10초 / 서버가 클라이언트에게 보내는 heart beat 간격
+    private static final long INGOING_INTERVAL_HEARTBEAT_TIME = 10 * 1000L; // 10초 / 클라이언트가 서버에게 보내는 heart beat 간격
 
     @Value("${cors.allowed-origins}")
     private String[] allowedOrigins;
@@ -43,8 +43,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint(CONNECT_ENDPOINT)
-//                .setAllowedOrigins(allowedOrigins)
-                .setAllowedOriginPatterns("*") // TODO: 배포 전 테스트를 위해 모든 Origin 허용
+                .setAllowedOrigins(allowedOrigins)
                 .withSockJS();  // SockJS fallback 옵션 활성화 (웹소켓을 지원하지 않는 브라우저에 대한 대체 솔루션 제공)
 
         registry.setErrorHandler(globalStompErrorHandler);
